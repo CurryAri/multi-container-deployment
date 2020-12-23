@@ -8,7 +8,7 @@ before_install:
 
 script:
 #anything here that doesnt have exit code 0 means the test didnt pass
-  - docker run -e CLI=true ari/react-test npm test
+  - docker run -e CI=true ari/react-test npm test
 
 after_success:
   - docker build -t ari/multi-client-prod ./client
