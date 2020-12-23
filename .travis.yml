@@ -1,0 +1,25 @@
+sudo: required
+language: generic
+services:
+  - docker
+
+before_install:
+  - docker build -t ari/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+#anything here that doesnt have exit code 0 means the test didnt pass
+  - docker run -e CLI=true ari/react-test npm test
+
+after_success:
+  - docker build -t ari/multi-client-prod ./client
+  - docker build -t ari/multi-nginx-prod ./nginx
+  - docker build -t ari/multi-server-prod ./server
+  - docker build -t ari/multi-worker-prod ./worker
+#log in to docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push ari/multi-client-prod
+  - docker push ari/multi-nginx-prod
+  - docker push ari/multi-server-prod
+  - docker push ari/multi-worker-prod
+#take images and push to docker hub
+
