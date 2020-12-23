@@ -17,9 +17,9 @@ after_success:
   - docker build -t ari/multi-worker-prod ./worker
 #log in to docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+#take images and push to docker hub
   - docker push ari/multi-client-prod
   - docker push ari/multi-nginx-prod
   - docker push ari/multi-server-prod
   - docker push ari/multi-worker-prod
-#take images and push to docker hub
 
