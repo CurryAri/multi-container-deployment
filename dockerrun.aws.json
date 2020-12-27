@@ -1,0 +1,38 @@
+{ 
+	"AWSEBDockerrunVersion": 2,
+	"containerDefinitions": [
+		{
+			"name": "client",
+			"image": "curryari/multi-client-prod",
+			"hostname": "client",
+			"essential": false
+		},
+		{
+			"name": "server",
+			"image": "curryari/multi-server-prod",
+			"hostname": "api",
+			"essential": false
+			
+		},
+		{
+			"name": "worker",
+			"image": "curryari/multi-worker-prod",
+			"hostname": "worker",
+			"essential": false
+		},
+		{
+			"name": "nginx",
+			"image": "curryari/multi-nginx-prod",
+			"hostname": "nginx",
+			"essential": true,
+			"portMappings": [
+				{
+					"hostPort": 80,
+					"containerPort": 80
+				}
+			],
+			"links": ["client", "server"]
+		}
+	]
+
+}
